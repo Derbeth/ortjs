@@ -38,7 +38,7 @@
   "scripts": {
     "check": "eslint --fix src && eslint --fix --env jasmine test",
     "compile": "babel src/ -d dist/",
-    "test": "eslint src && npm run compile && node test/test.js",
+    "test": "eslint --fix src && npm run compile && node test/test.js",
     "coverage": "eslint src && npm run compile && istanbul cover test/test.js",
     "karma": "eslint src && babel test/browser.js -d tmp/ && karma start --single-run",
     "prepublish": "npm run check && npm run compile"
