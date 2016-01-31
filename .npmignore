@@ -1,0 +1,9 @@
+coverage/
+src/
+test/
+tmp/
+karma.conf.js
+.babelrc
+.eslintrc.json
+.gitignore
+.npmignore

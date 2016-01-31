@@ -1,0 +1,46 @@
+{
+  "name": "ort",
+  "version": "0.0.1",
+  "description": "Automatic spelling correction for Polish language, both in wikicode and plaintext",
+  "homepage": "http://tools.wikimedia.pl/~derbeth/ort/",
+  "author": "Piotr Kubowicz <derbeth@interia.pl> (https://github.com/Derbeth)",
+  "contributors": [],
+  "keywords": [
+    "spelling",
+    "ortography",
+    "Polish"
+  ],
+  "main": "./dist/ort.js",
+  "engines": {
+    "node": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Derbeth/ortjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Derbeth/ortjs/issues"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "~6.4.5",
+    "babel-preset-es2015": "latest",
+    "eslint": "latest",
+    "istanbul": "latest",
+    "jasmine-core": "latest",
+    "karma": "latest",
+    "karma-firefox-launcher": "latest",
+    "karma-jasmine": "latest",
+    "karma-phantomjs-launcher": "latest",
+    "karma-spec-reporter": "latest",
+    "phantomjs-prebuilt": "~2.1.1"
+  },
+  "scripts": {
+    "check": "eslint --fix src && eslint --fix --env jasmine test",
+    "compile": "babel src/ -d dist/",
+    "test": "eslint src && npm run compile && node test/test.js",
+    "coverage": "eslint src && npm run compile && istanbul cover test/test.js",
+    "karma": "eslint src && babel test/browser.js -d tmp/ && karma start --single-run",
+    "prepublish": "npm run check && npm run compile"
+  }
+}
