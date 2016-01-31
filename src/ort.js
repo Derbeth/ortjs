@@ -19,18 +19,20 @@
 
             line = line.replace(/\bz pośród\b/g, 'spośród');
             line = line.replace(/\bZ pośród\b/, 'Spośród');
+
+            line = this._addMissingPolishAccents(line);
             return line;
         }
 
         _fixNumerals1(line) {
-            if (line.indexOf('<math>') != -1) {
+            if (line.indexOf('<math>') !== -1) {
                 return line;
             }
 
-            let separator = this.risky ? "( ?[-–—] ?)?" : "( ?- ?|[–—])?";
-            let matches = new RegExp(`(\\d|\\b[XIV]+\\b)${separator}(nasto|cio|ro|sto|to|mio|o)[ -]`).exec(line);
+            const separator = this.risky ? "( ?[-–—] ?)?" : "( ?- ?|[–—])?";
+            const matches = new RegExp(`(\\d|\\b[XIV]+\\b)${separator}(nasto|cio|ro|sto|to|mio|o)[ -]`).exec(line);
             if (matches) {
-                let m1 = matches[1];
+                const m1 = matches[1];
                 let match = matches[0];
                 let before = this._prematch(line, matches);
                 let after = this._postmatch(line, matches);
@@ -40,6 +42,14 @@
                 after = this._fixNumerals1(after);
                 line = before + match + after;
             }
+            return line;
+        }
+
+        _addMissingPolishAccents(line) {
+            if (!this.risky) {
+                return line;
+            }
+            line = line.replace(/\b(imi|książ|mas|par|plemi|zwierz)e\b/, '$1ę');
             return line;
         }
 
