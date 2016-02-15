@@ -4,7 +4,7 @@
     class Ort {
         constructor(params={}) {
             this.params = params;
-            this.risky = true;
+            this.risky = params.risky === undefined ? true : params.risky;
         }
 
         fix(text) {
@@ -12,7 +12,10 @@
         }
 
         _fixLine(line) {
-            line = this._fixNumerals1(line);
+            if (!line.match(/<math>/i)) {
+                line = this._fixNumerals1(line);
+                line = this._fixNumerals2(line);
+            }
 
             line = this._fixApostrophes1(line);
             line = this._fixApostrophes2(line);
@@ -28,24 +31,30 @@
         }
 
         _fixNumerals1(line) {
-            if (line.indexOf('<math>') !== -1) {
-                return line;
-            }
-
             const separator = this.risky ? "( ?[-–—] ?)?" : "( ?- ?|[–—])?";
-            const matches = new RegExp(`(\\d|\\b[XIV]+\\b)${separator}(nasto|cio|ro|sto|to|mio|o)[ -]`).exec(line);
-            if (matches) {
-                const m1 = matches[1];
-                let match = matches[0];
-                const before = this._prematch(line, matches);
-                let after = this._postmatch(line, matches);
-                if (!/https?:\/\/\S+$|(Grafika|Image|Plik|File):[^\|]*$/i.exec(before)) {
-                    match = `${m1}-`;
+            return this._safeReplace(line,
+                new RegExp(`(\\d|\\b[XIV]+\\b)${separator}(nasto|cio|ro|sto|to|mio|o)[ -]`),
+                (match, matches, before) => {
+                    if (this._isLinkStart(before)) {
+                        return match;
+                    }
+                    return `${matches[1]}-`;
                 }
-                after = this._fixNumerals1(after);
-                line = before + match + after;
-            }
-            return line;
+            );
+        }
+
+        // 12-tu -> 12
+        _fixNumerals2(line) {
+            return this._safeReplace(line,
+                /(\d|\b[XIV]+\b)( ?- ?|[–—])?(miu|toma|cioro|ciorga|ciorgiem|cioma|ciu|oro|oma|wu|stu|rech|ech|rgiem|giem|rga|ga|tu|óch|ch|u)\b/,
+                (match, matches, before) => {
+                    if (this._isLinkStart(before) ||
+                        (!this.risky && !matches[2])) {
+                        return match;
+                    }
+                    return matches[1];
+                }
+            );
         }
 
         //Jay'a-Z
