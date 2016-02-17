@@ -29,7 +29,7 @@
             line = line.replace(/(\d{4})\. (r\.)/g, '$1 $2');
 
             line = line.replace(/(\d)( ?- ?|[–—])?(set)\b/g, '$1-$3QQQ'); // ostrzeżenie przed 400-set itp.
-            line = line.replace(/(\d)(?: ?- ?|[–—])?((?:st|t|)(?:kom|kach|kami|ka|ki|kę|ką|ke|ce|ek))($|\s)/g, '$1-$2QQQ$3'); // ostrzeżenie przed zapisem 12-tka (http://poradnia.pwn.pl/lista.php?id=7010)
+            line = line.replace(/(\d)(?: ?- ?|[–—])?((?:st|t|)(?:kom|kach|kami|ka|ki|kę|ką|ke|ce|ek))($|\W)/g, '$1-$2QQQ$3'); // ostrzeżenie przed zapisem 12-tka (http://poradnia.pwn.pl/lista.php?id=7010)
 
             if (!line.match(/<math>/i)) {
                 line = this._fixNumerals1(line);
@@ -117,9 +117,9 @@
                 + 'dmej|mej|tej|ej|wszego|szego|wszej|szej|stego|tego|dmego|mego|ste|te|'
                 + 'dme|ciego|ciej|cim|cie|cia|cią|ci|gim|im|giego|giej|gie|gi|go|ga|iej|iego|'
                 + 'czna|cznej|cznego|czne|cznym|cznych|czny|czną|czna|'
-                + '((set|et|t)?(na|nej|nego|ne|nym|nych|ny|ną))|'
+                + '(?:(?:set|et|t)?(?:na|nej|nego|ne|nym|nych|ny|ną))|'
                 + 'wsza|sza|wsze|sze|wszych|szych|dmych|mych|ych|dmy|my|dma|ma|dmą|mą|'
-                + 'wszy|szy|me|e|ego|go|y|ą)\\b');
+                + 'wszy|szy|me|ego|e|go|y|ą)($|\\W)');
             return this._safeReplace(line,
                 regexp,
                 (match, matches, before) => {
@@ -130,9 +130,9 @@
                         return match;
                     }
                     if (matches[1].match(/\d+/)) {
-                        return `${matches[1]}.`; // 10-te -> 10.
+                        return `${matches[1]}.${matches[5]}`; // 10-te -> 10.
                     } else {
-                        return matches[1]; // VI-tym -> IV
+                        return `${matches[1]}${matches[5]}`; // VI-tym -> IV
                     }
                 }
             );
