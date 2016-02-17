@@ -20,23 +20,52 @@
                 line = this._fixOrdinals2(line);
             }
 
-            line = line.replace(/(\b[XIV]+)\. (wiek|wieczn|stuleci)/, '$1 $2'); // XX. wieku -> XX wieku
-            line = line.replace(/((w|W)ieku?) (\b[XIV]+)\./, '$1 $3'); // wiek XX. -> wiek XX
-            line = line.replace(/(\b[XIV]+)( |- | -| - |[–—])(wieczn)/, '$1-$3'); // XX wieczny -> XX-wieczny
+            line = line.replace(/(\b[XIV]+)\. (wiek|wieczn|stuleci)/g, '$1 $2'); // XX. wieku -> XX wieku
+            line = line.replace(/((w|W)ieku?) (\b[XIV]+)\./g, '$1 $3'); // wiek XX. -> wiek XX
+            line = line.replace(/(\b[XIV]+)( |- | -| - |[–—])(wieczn)/g, '$1-$3'); // XX wieczny -> XX-wieczny
 
-            line = line.replace(/(godzin(a|ie|ą)) (\d+)\.(?!\d)/, '$1 $3'); // o godzinie 10. -> o godzinie 10
-            line = line.replace(/(\d)\. (stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia)/i, '$1 $2'); // 1. stycznia -> 1 stycznia
-            line = line.replace(/(\d{4})\. (r\.)/, '$1 $2');
+            line = line.replace(/(godzin(a|ie|ą)) (\d+)\.(?!\d)/g, '$1 $3'); // o godzinie 10. -> o godzinie 10
+            line = line.replace(/(\d)\. (stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia)/gi, '$1 $2'); // 1. stycznia -> 1 stycznia
+            line = line.replace(/(\d{4})\. (r\.)/g, '$1 $2');
+
+            line = line.replace(/(\d)( ?- ?|[–—])?(set)\b/g, '$1-$3QQQ'); // ostrzeżenie przed 400-set itp.
+            line = line.replace(/(\d)(?: ?- ?|[–—])?((?:st|t|)(?:kom|kach|kami|ka|ki|kę|ką|ke|ce|ek))($|\s)/g, '$1-$2QQQ$3'); // ostrzeżenie przed zapisem 12-tka (http://poradnia.pwn.pl/lista.php?id=7010)
 
             if (!line.match(/<math>/i)) {
                 line = this._fixNumerals1(line);
                 line = this._fixNumerals2(line);
             }
-            line = line.replace(/\b1(?:-|–|—)wszo /, 'pierwszo');
+            line = line.replace(/\b1(?:-|–|—)wszo /g, 'pierwszo');
 
-            line = line.replace(/(lat(ach|a)?) '(\d\d)/, '$1 $3.'); // lat '80 -> lat 80.
-            line = line.replace(/ '(\d\d)\.(?!\d)/, ' $1.'); // lat '80. -> lat 80  # '
-            line = line.replace(/\b([XIV]{2,})w\./, '$1 w.'); // XXw. -> XX w.
+            line = line.replace(/(lat(ach|a)?) '(\d\d)/g, '$1 $3.'); // lat '80 -> lat 80.
+            line = line.replace(/ '(\d\d)\.(?!\d)/g, ' $1.'); // lat '80. -> lat 80  # '
+            line = line.replace(/\b([XIV]{2,})w\./g, '$1 w.'); // XXw. -> XX w.
+
+            line = line.replace('keQQQ', 'kęQQQ');
+            const numToWord = {
+                10: 'dziesiąt',
+                11: 'jedenast',
+                12: 'dwunast',
+                13: 'trzynast',
+                14: 'czternast',
+                15: 'piętnast',
+                16: 'szesnast',
+                17: 'siedemnast',
+                18: 'osiemnast',
+                19: 'dziewiętnast',
+                20: 'dwudziest',
+                30: 'trzydziest',
+                40: 'czterdziest',
+                50: 'pięćdziesiąt',
+                60: 'sześćdziesiąt',
+                70: 'siedemdziesiąt',
+                80: 'osiemdziesiąt',
+                90: 'dziewięćdziesiąt'
+            };
+            Object.keys(numToWord).forEach(num => {
+                line = line.replace(new RegExp(num + '( ?- ?|[–—])?((st|t|)(kom|kach|kami|ka|ki|kę|ką|ce|ek))QQQ\\b', 'g'),
+                    `${numToWord[num]}$4`);
+            });
 
             if (this.risky) {
                 // 4.. -> 4. but not 4...
@@ -59,7 +88,7 @@
             line = line.replace(/\[\[([^|\]]*(Luk|Mik|[rR]emak|Spik))e\s*\]\]('|’|`|-|–|—)(em|m)\b/g, '[[$1e|$1iem]]');
 
             line = line.replace(/\bz pośród\b/g, 'spośród');
-            line = line.replace(/\bZ pośród\b/, 'Spośród');
+            line = line.replace(/\bZ pośród\b/g, 'Spośród');
 
             line = this._addMissingPolishAccents(line);
             return line;
@@ -110,8 +139,8 @@
         }
 
         _fixOrdinals2(line) {
-            line = line.replace(/(lat\w* +\d+)( ?[-–—] ?| )(tych|tymi|te)\b/i, '$1.');
-            line = line.replace(/(lat\w* +)1\d(\d0\.)/i, '$1$2');
+            line = line.replace(/(lat\w* +\d+)( ?[-–—] ?| )(tych|tymi|te)\b/gi, '$1.');
+            line = line.replace(/(lat\w* +)1\d(\d0\.)/gi, '$1$2');
             return line;
         }
 
@@ -187,7 +216,7 @@
             if (!this.risky) {
                 return line;
             }
-            line = line.replace(/\b(imi|książ|mas|par|plemi|zwierz)e\b/, '$1ę');
+            line = line.replace(/\b(imi|książ|mas|par|plemi|zwierz)e\b/g, '$1ę');
             return line;
         }
 

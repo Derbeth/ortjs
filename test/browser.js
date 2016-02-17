@@ -17,6 +17,10 @@
             it("fixes all spelling mistakes in given text", () => {
                 expect(ort.fix("Aaron'a 50-cio bajtowy")).toEqual("Aarona 50-bajtowy");
             });
+
+            it("matches words with Polish characters", () => {
+                expect(ort.fix("książe 15-kę 8-mą 7-dmy 7-dmą")).toEqual("książę piętnastkę 8. 7. 7.");
+            });
         });
     });
 })();
