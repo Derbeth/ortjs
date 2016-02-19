@@ -37,6 +37,33 @@
             }
             line = line.replace(/\b1(?:-|–|—)wszo /g, 'pierwszo');
 
+            const risky_units = this.risky ? 'dzienn|' : '';
+            const link_units = '(?:tera|giga|mega|kilo|deka|centy|mili|nano)?(?:bajt|bit|gram|herc|metr)|cal|dolar|frank|funt|galon|hektar|jard|karat|wat|wolt';
+            const units = 'lat(?:ek|kami|ka|kiem|ki|ku|ków)'
+                + '|lec(?:iu|iem|ie|ia)'
+                + '|letn(?:ia|iej|iego|ie|ią|ich|imi|im|i)'
+                + `|(?:(?:${link_units})ow|${risky_units}`
+                + 'barwn|biegow|bramkow|cylindrow|cyfrow|częściow|dekadow|dniow|drzwiow|dzieln|elementow|etapow|fazow|godzinn|groszow|gwiazdkow|kanałow|kątn|klasow|klawiszow|kołow|komorow|kondygnacyjn|konn|krotn|lufow|masztow|miejscow|miesięczn|miliardow|milionow|minutow|morgow|nabojow|nawow|odcinkow|osiow|osobow|palczast|pasmow|piętrow|pinow|płytow|procentow|procesorow|przęsłow|punktow|ramienn|rdzeniow|roczn|rurow|sekundow|setow|siedzeniow|silnikow|spadow|stopniow|stronn|strunow|strzałow|suwow|ścienn|taktow|tomow|tonow|tygodniow|tysięczn|uncjow|wartościow|wieczn|wymiarow|zaworow|zdaniow|zębow|złotow)'
+                + "(?:ych|ymi|ym|ego|emu|ej|[aeyią])";
+            const safe_base_numerals = 'dwu|cztero|pięcio|sześcio|siedmio|ośmio|dziewięcio|dziesięcio';
+            const unsafe_base_numerals = 'jedno|trój|trzy';
+            const base_numerals = `${safe_base_numerals}|${unsafe_base_numerals}`;
+            const safe_numerals = safe_base_numerals
+                + '|jedenasto|dwunasto|trzynasto|czternasto|piętnasto|szesnasto|siedemnasto|osiemnasto|dziewiętnasto'
+                + `|(?:dwudziesto|trzydziesto|czterdziesto|pięćdziesięcio)(?:${base_numerals})?`;
+            const numerals = safe_numerals
+                + '|' + unsafe_base_numerals
+                + '|kilkunasto|kilkuset|półtora|pół|stu|wielo';
+            const separator = '(?: | ?[-–—] ?|\\. )';
+            line = line.replace(new RegExp(`(\\d)${separator}(${units})($|\\W)`, 'gi'), (m, m1, m2, m3) => `${m1}-${m2.toLowerCase()}${m3}`); // 32 bitowy -> 32-bitowy
+            line = line.replace(new RegExp(`(\\d)${separator}(\\[\\[)(${link_units})(\\]\\]ow(?:ego|emu|ych|ymi|ym|ą|e|a|y))($|\\W)`, 'gi'), (m, m1, m2, m3, m4, m5) => `${m1}-${m2}${m3.toLowerCase()}${m4}${m5}`);
+            line = line.replace(new RegExp(`\\b(${safe_numerals}) +i +pół +(${units})`, 'gi'), '$1ipół$2'); // http://so.pwn.pl/zasady.php?id=629465
+            line = line.replace(new RegExp(`\\b(${numerals})${separator}(${units})($|\\W)`, 'gi'), '$1$2$3'); // sześcio tonowy -> sześciotonowy
+            line = line.replace(new RegExp(`\\b(${safe_numerals})-(lub)`, 'gi'), '$1- $2'); // trzy-lub czterokołowy
+            if (this.risky) {
+                line = line.replace(new RegExp(`\\b(${safe_numerals})((?:, | ))`, 'gi'), '$1-$2') // cztero albo pięciosobowy
+            }
+
             line = line.replace(/(lat(ach|a)?) '(\d\d)/g, '$1 $3.'); // lat '80 -> lat 80.
             line = line.replace(/ '(\d\d)\.(?!\d)/g, ' $1.'); // lat '80. -> lat 80  # '
             line = line.replace(/\b([XIV]{2,})w\./g, '$1 w.'); // XXw. -> XX w.
