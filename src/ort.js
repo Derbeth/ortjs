@@ -108,6 +108,9 @@
                 );
             }
 
+            line = line.replace(/\b(d|D)j\b/g, 'DJ');
+            line = this._fixAcronyms(line);
+
             line = this._fixApostrophes1(line);
             line = this._fixApostrophes2(line);
             line = this._fixApostrophes3(line);
@@ -132,6 +135,22 @@
                         return match;
                     }
                     return `${matches[1]}${matches[2]}`;
+                }
+            );
+        }
+
+        // LOTu -> LOT-u
+        _fixAcronyms(line) {
+            return this._safeReplace(line,
+                /([a-zA-ZłśżŁŚŻ][A-ZŁŚŻ](?:\]\])?)('|’|`|- | -|–|—)?(ach|ami|zie|ów|ka|etu|ecie|ocie|otu|owych|owym|owy|owi|owa|owe|owców|owcy|owcu|owiec|owcem|owcowi|owcami|owca|ką|kę|(?:(?:ow)?(?:skie|skich|skim|ski|ską))|iem|em|om|ie|i|a|e|ę|u|y)\b(?![a-zćłńóśźż])/,
+                (match, matches, before) => {
+                    if (this._isLinkStart(before)
+                        || (!this.risky && !matches[2])
+                        || (match.match(/kPa|kDa|\bI[a-z]\b/))
+                    ) {
+                        return match;
+                    }
+                    return `${matches[1]}-${matches[3]}`;
                 }
             );
         }
