@@ -22,9 +22,9 @@
             {};
         console.log(`Would run with ${JSON.stringify(params)} on ${input.length} to ${expectedOutput.length}`);
         const actualOutput = new Ort(params).fix(input);
+        const actualOuputPath = path.resolve(actualDir, `out${index}.txt`);
+        fs.writeFileSync(actualOuputPath, actualOutput);
         if (expectedOutput !== actualOutput) {
-            const actualOuputPath = path.resolve(actualDir, `out${index}.txt`);
-            fs.writeFileSync(actualOuputPath, actualOutput);
             failed.push(`${diffCmd} ${actualOuputPath} ${expectedPath}`);
         }
     });
