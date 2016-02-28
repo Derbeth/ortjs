@@ -114,8 +114,49 @@
             line = this._fixApostrophes1(line);
             line = this._fixApostrophes2(line);
             line = this._fixApostrophes3(line);
-            line = line.replace(/(Jak|Luk|Mik|[rR]emak|Spik)e('|’|`|-|–|—)(iem|em|m)\b/g, '$1iem');
-            line = line.replace(/\[\[([^|\]]*(Luk|Mik|[rR]emak|Spik))e\s*\]\]('|’|`|-|–|—)(em|m)\b/g, '[[$1e|$1iem]]');
+            line = line.replace(/(Jak|Luk|Mik|[rR]emak|Spik)e('|’|`|-|–|—)(iem|em|m)\b/g, '$1iem'); // Mike'm -> Mikiem
+            line = line.replace(/\[\[([^|\]]*(Luk|Mik|[rR]emak|Spik))e\s*\]\]('|’|`|-|–|—)(em|m)\b/g, '[[$1e|$1iem]]'); // [[remake]]'m -> [[remake|remakiem]]
+            line = line.replace(/(Luk|Mik|[rR]emak|Spik)e('|’|`|-|–|—)(i)\b/g, '$1i'); // remake'i -> remaki
+            line = line.replace(/\[\[([^|\]]*(Luk|Mik|[rR]emak|Spik))e\s*\]\]('|’|`|-|–|—)(i)\b/g, '[[$1e|$1i]]'); // [[remake]]'i -> [[remake|remaki]]
+            line = line.replace(/\b(Apocalypti|Benfi|Galacti|Jessi|Metalli|Rebe|Termali)ci\b/g, '$1ki'); // Metallici -> Metalliki
+            if (this.risky) {
+                line = line.replace(/\bAmici\b/g, 'Amiki');
+            }
+            line = line.replace(/\B(ell)i(?:'|’|`|-)?(ego|emu)\b/g, '$1$2'); // Botticelliemu -> Botticellemu http://so.pwn.pl/zasady.php?id=629632
+            line = line.replace(/\[\[([^\]|]+ell)i\]\](?:'|’|`|-)?(ego|emu)\b/g, '[[$1i|$1$2]]'); // [[Sandro Botticelli]]ego
+
+            line = line.replace(/ieego\b/g, 'iego$1'); // Laurieego -> Lauriego
+            line = line.replace(/(Mar|Eri)ciem\b/g, '$1kiem'); // Marciem, Markem -> Markiem, Ericiem -> Erikiem
+            line = line.replace(/\b(Mark|Greg)em\b/g, '$1iem');
+            line = line.replace(/a('|’|`)([ąęy])($|\W)/g, '$2$3'); //  Laura'y -> Laury
+            line = line.replace(/(oe)((?:\]\])?)('|’|`|-)(go|m)\b/g, '$1$2$4'); // Joe'go -> Joego
+            line = line.replace(/\Be('|’|`)go\b/g, 'ego'); // Mecke'go -> Meckego
+            line = line.replace(/y('|’|`|-|–|—)iego\b/g, 'y’ego'); // Percy'iego -> Percy'ego
+            line = line.replace(/y((?:\]\])?)('|’|`|-)m\b/g, 'y$1m'); // Tony'm -> Tonym
+            line = this._fixEm(line);
+            line = line.replace(/`/g, '’');
+            if (this.risky) {
+                line = line.replace(/\Bt'cie/g, 'cie'); // Kurt'cie -> Kurcie
+                line = line.replace(/(\S+)xie\b/g, (match, m1) => {
+                    if (match === 'Dixie') {
+                        return match;
+                    }
+                    return `${m1}ksie`;
+                }); // Foxie -> Foksie
+                line = line.replace(/\[\[([^\]]+)x\]\]ie\b/g, '[[$1x|$1ksie]]'); // [[box]]ie -> [[box|boksie]]
+            }
+            line = line.replace(/(Burke|Duke|George|Luke|Mike|Pete|Shayne|Spike|Steve)((?:\]\])?)(a|owi)\b/g, '$1$2’$3');
+            line = line.replace(/(Boyl|Doyl|Joyc|Lawrenc|Wayn)e?((?:\]\])?)(a|owi)\b/g, '$1e$2’$3');
+            line = line.replace(/(Boyl|Doyl|Joyc|Lawrenc|Wayn)e?((?:\]\])?)(em|m)\b/, '$1e$2’em');
+            line = line.replace(/(Barr|Dann|Gar|Gretzk|Harr|Perc|Perr|Terr|Timoth)y?(ego|emu)\b/g, '$1y’$2');
+            line = line.replace(/\[\[([^|\]]*(Barr|Dann|Gar|Gretzk|Harr|Perc|Perr|Terr|Timoth))y\]\](ego|emu)\b/g, '[[$1y|$1y’$3]]');
+
+            line = line.replace(/(Andrew|Matthew)('|’|`|-|–|—)?(a|em|ie|owi)/g, '$1'); // Andrew'a -> Andrew
+            line = line.replace(/(François)('|’|`|-)?(a|em)\b/g, '$1'); // Françoisa -> François
+
+            line = line.replace(/Charles(a|em|owi) de Gaulle/g, 'Charles’$1 de Gaulle');
+            line = line.replace(/(Barthes|Jacques|Yves)(owi|em|a)\b/g, '$1’$2');
+            line = line.replace(/Yves('|’|`|-)?ie\b/g, 'Ywie');
 
             line = line.replace(/\bz pośród\b/g, 'spośród');
             line = line.replace(/\bZ pośród\b/g, 'Spośród');
@@ -254,6 +295,19 @@
                         return match;
                     }
                     return `${matches[1]}${matches[2]}`;
+                }
+            );
+        }
+
+        // Steve'm -> Steve'em
+        _fixEm(line) {
+            return this._safeReplace(line,
+                /(b|c|d|f|g|h|j|k|l|m|n|p|r|s|t|v|x|w|z)e(\]\])?('|’|`|-|–|—)m\b/,
+                (match, matches, before) => {
+                    if (this._isLinkStart(before)) {
+                        return match;
+                    }
+                    return `${matches[1]}e${matches[2] || ''}${matches[3]}em`;
                 }
             );
         }
