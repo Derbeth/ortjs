@@ -110,6 +110,9 @@
 
             line = line.replace(/\b(d|D)j\b/g, 'DJ');
             line = this._fixAcronyms(line);
+            line = line.replace(/\bsmsy\b/g, 'SMS-y');
+            line = line.replace(/\b((MSZ|ONZ)(\]\])?)(-| -|- |'|’|`|–|—)(tu|u)/g, '$1-etu');
+            line = line.replace(/\b((MSZ|ONZ)(\]\])?)(-| -|- |'|’|`|–|—)(cie)/g, '$1-ecie');
 
             line = this._fixApostrophes1(line);
             line = this._fixApostrophes2(line);
@@ -187,7 +190,7 @@
                 (match, matches, before) => {
                     if (this._isLinkStart(before)
                         || (!this.risky && !matches[2])
-                        || (match.match(/kPa|kDa|\bI[a-z]\b/))
+                        || (`${before}${match}`.match(/(?:kPa|kDa|HiFi|WiFi|TDi|HDi|\bI[a-z]\b)$/))
                     ) {
                         return match;
                     }
