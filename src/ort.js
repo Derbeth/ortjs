@@ -114,6 +114,7 @@
             line = line.replace(/\b((MSZ|ONZ)(\]\])?)(-| -|- |'|’|`|–|—)(tu|u)/g, '$1-etu');
             line = line.replace(/\b((MSZ|ONZ)(\]\])?)(-| -|- |'|’|`|–|—)(cie)/g, '$1-ecie');
 
+            line = line.replace(/\B(oy|ey)('|’|`|-|–|—)e?go\b/g, '$1’a');
             line = this._fixApostrophes1(line);
             line = this._fixApostrophes2(line);
             line = this._fixApostrophes3(line);
