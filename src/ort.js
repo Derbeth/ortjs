@@ -108,11 +108,7 @@
                 );
             }
 
-            line = line.replace(/\b(d|D)j\b/g, 'DJ');
             line = this._fixAcronyms(line);
-            line = line.replace(/\bsmsy\b/g, 'SMS-y');
-            line = line.replace(/\b((MSZ|ONZ)(\]\])?)(-| -|- |'|’|`|–|—)(tu|u)/g, '$1-etu');
-            line = line.replace(/\b((MSZ|ONZ)(\]\])?)(-| -|- |'|’|`|–|—)(cie)/g, '$1-ecie');
 
             line = line.replace(/\B(oy|ey)('|’|`|-|–|—)e?go\b/g, '$1’a');
             line = this._fixApostrophes1(line);
@@ -296,9 +292,10 @@
             );
         }
 
-        // LOTu -> LOT-u
         _fixAcronyms(line) {
-            return this._safeReplace(line,
+            line = line.replace(/\b(d|D)j\b/g, 'DJ');
+            // LOTu -> LOT-u
+            line = this._safeReplace(line,
                 /([a-zA-ZłśżŁŚŻ][A-ZŁŚŻ](?:\]\])?)('|’|`|- | -|–|—)?(ach|ami|zie|ów|ka|etu|ecie|ocie|otu|owych|owym|owy|owi|owa|owe|owców|owcy|owcu|owiec|owcem|owcowi|owcami|owca|ką|kę|(?:(?:ow)?(?:skie|skich|skim|ski|ską))|iem|em|om|ie|i|a|e|ę|u|y)\b(?![a-zćłńóśźż])/,
                 (match, matches, before) => {
                     if (this._isLinkStart(before)
@@ -310,6 +307,14 @@
                     return `${matches[1]}-${matches[3]}`;
                 }
             );
+            line = line.replace(/\bsmsy\b/g, 'SMS-y');
+            line = line.replace(/\b((MSZ|ONZ)(\]\])?)(-| -|- |'|’|`|–|—)(tu|u)/g, '$1-etu');
+            line = line.replace(/\b((MSZ|ONZ)(\]\])?)(-| -|- |'|’|`|–|—)(cie)/g, '$1-ecie');
+            line = line.replace(/\b([A-Z]+)T[-–—]ie\b/g, (match, m1) => this._ucfirst(`${m1.toLowerCase()}cie`));
+            line = line.replace(/\b([A-Z]+)T\]\][-–—]ie\b/g, (match, m1) => `${m1}T|${this._ucfirst(m1.toLowerCase()+'cie')}]]`);
+            line = line.replace(/\b([A-Z]+)X[-–—]ie\b/g, (match, m1) => this._ucfirst(`${m1.toLowerCase()}ksie`));
+            line = line.replace(/\b([A-Z]+)X\]\][-–—]ie\b/g, (match, m1) => `${m1}X|${this._ucfirst(m1.toLowerCase()+'ksie')}]]`);
+            return line;
         }
 
         _fixOrdinals(line) {
@@ -474,6 +479,10 @@
 
         _postmatch(string, match) {
             return string.substring(match.index + match[0].length);
+        }
+
+        _ucfirst(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
         _isLinkStart(text) {
