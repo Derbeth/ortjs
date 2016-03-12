@@ -161,10 +161,122 @@
             line = line.replace(/(Barthes|Jacques|Yves)(owi|em|a)\b/g, '$1’$2');
             line = line.replace(/Yves('|’|`|-)?ie\b/g, 'Ywie');
 
+            // "Koreii", "ziemii"
+            line = line.replace(/(bieżni|elektrowni|głębi|jaskini|Korei|powierzchni|pustyni|skoczni|skrobi|uczelni|ziemi)i/gi, '$1');
+            // Japoni -> Japonii
+            line = line.replace(/\b(Austri|Australi|Algieri|amfibi|Armeni|Belgi|[bB]ibli|Brazyli|Brytani|Bułgari|Cynthi|Estoni|Etiopi|Finlandi|Grenlandi|Hiszpani|Holandi|Irlandi|Islandi|Japoni|Jordani|Jugosławi|laryngologi|lini|Mołdawi|Mongoli|Nigeri|Norwegi|opini|Portugali|Serbi|Słoweni|stomatologi|Szwajcari|Tajlandi|Virgini|Zelandi)\b/g, '$1i');
+            // szyji -> szyi
+            line = line.replace(/\b(ale|knie|kole|mierze|nadzie|Okrze|ru|szy|Zia)ji\b/gi, '$1i');
+            // komuniźmie -> komunizmie
+            line = line.replace(/(analfabety|anarchi|buddy|fanaty|faszy|femini|judai|kapitali|katechi|komuni|marksi|masochi|mechani|mesjani|nazi|nihili|oportuni|optymi|organi|pesymi|platoni|pozytywi|protestanty|radykali|romanty|sady|socjali|syndykali|totalitary|trocki)źmie/gi, '$1zmie');
+
             line = line.replace(/\bz pośród\b/g, 'spośród');
             line = line.replace(/\bZ pośród\b/g, 'Spośród');
+            line = line.replace(/\b(W|w) śród\b/g, '$1śród');
+            line = line.replace(/\b(W|w)(?:ogóle|ogule|ogle)\b/g, '$1 ogóle');
+            line = line.replace(/\b(W|w) skutek\b/g, '$1skutek');
+            line = line.replace(/\bspowrotem\b/g, 'z powrotem');
+            line = line.replace(/\bSpowrotem\b/g, 'Z powrotem');
+            line = line.replace(/\bspowodu\b/g, 'z powodu');
+            line = line.replace(/\bz pod\b/g, 'spod');
+            line = line.replace(/\bZ pod\b/g, 'Spod');
+            line = line.replace(/\bz nad\b(?! wyraz)/g, 'znad');
+            line = line.replace(/\bZ nad\b(?! wyraz)/g, 'Znad');
+            line = line.replace(/\bz przed\b/g, 'sprzed');
+            line = line.replace(/\bZ przed\b/g, 'Sprzed');
+            line = line.replace(/\bz poza\b/g, 'spoza');
+            line = line.replace(/\bZ poza\b/g, 'Spoza');
+            line = line.replace(/\b(p|P)onad to\b/g, '$1onadto');
+            line = line.replace(/\b(p|P)o środku\b/g, '$1ośrodku');
+            line = line.replace(/\bz pod\b/g, 'spod');
+            line = line.replace(/\bZ pod\b/g, 'Spod');
+            line = line.replace(/\bz\s?tąd\b/g, 'stąd');
+            line = line.replace(/\bZ\s?tąd\b/g, 'Stąd');
+            line = line.replace(/\bz tamtąd\b/g, 'stamtąd');
+            line = line.replace(/\bZ tamtąd\b/g, 'Stamtąd');
+            line = line.replace(/\bz nikąd\b/g, 'znikąd');
+            line = line.replace(/\bZ nikąd\b/g, 'Znikąd');
+            line = line.replace(/\b(Na|na) codzień\b/g, '$1 co dzień');
+            line = line.replace(/\b(Po|po)prostu\b/g, '$1 prostu');
+            line = line.replace(/\b(Na|na)pewno\b/g, '$1 pewno');
+            line = line.replace(/\b(Co|co)najmniej\b/g, '$1 najmniej');
+            line = line.replace(/\b(Na|na)razie\b/g, '$1 razie');
+            line = line.replace(/\b(Od|od)razu\b/g, '$1 razu');
+            line = line.replace(/\b(Na|na) codzień\b/g, '$1 co dzień');
+            line = line.replace(/\b(Co|co) dzienn(ych|ymi|ym|ie|ej|e|y|a|ą)/g, '$1dzienn$2');
+            line = line.replace(/\b(Na|na) prawdę/g, '$1prawdę');
+            line = line.replace(/\b(Na|na) przeciwko\b/g, '$1przeciwko');
+            line = line.replace(/\b(Do|do) okoła\b/g, '$1okoła');
+            line = line.replace(/\bporaz\b/g, 'po raz');
+            line = line.replace(/\b([Ww])(głąb|skład)\b/g, '$1 $2');
+            line = line.replace(/\b(Do|do) tond\b/g, '$1tąd');
+            line = line.replace(/\b(?:stond|z tąd|z tond)\b/g, 'stąd');
+            line = line.replace(/\b(?:Stond|Z tąd|Z tond)\b/g, 'Stąd');
+            line = line.replace(/\bwszechczasów\b/g, 'wszech czasów');
+            line = line.replace(/\b((s|S)tandar)t(owymi|owym|owy|owa|owych|owe|ową|ów|om|u|y)?($|\W)/g, '$1d$3$4');
+            line = line.replace(/\bstandarcie\b/g, 'standardzie');
+            line = line.replace(/\b(P|p)ożąd(ek|ku|kiem)\b/g, '$1orząd$2');
+            line = line.replace(/\bna prawdę/g, 'naprawdę');
+            line = line.replace(/\b(W|w) raz z\b/g, '$1raz z');
+            line = line.replace(/\b(W|w) skutek\b/g, '$1skutek');
+            line = line.replace(/\b(W|w)razie\b/g, 'w razie');
+            line = line.replace(/\bZ przed\b/g, 'Sprzed');
+            line = line.replace(/\bz przed\b/g, 'sprzed');
+            line = line.replace(/\b(N|n)ie dług(o|i)\b/g, '$1iedług$2');
+            line = line.replace(/\b(P|p)oprostu\b/g, '$1o prostu');
+
+            line = line.replace(/\btą (mapę|jaskinię)/g, 'tę $1');
+            line = line.replace(/\bbieże\b/g, 'bierze');
+            line = line.replace(/\b(a|A)bsorbcj(a|i|ą)($|\W)/g, '$1bsorpcj$2$3');
+            line = line.replace(/\b(b|B)ierząc(ej|ych|ego|ym|o|y|a)\b/g, '$1ieżąc$2');
+            line = line.replace(/\b(C|c)jan(ku|ek|owodór|owodoru)\b/g, '$1yjan$2');
+            line = line.replace(/\b(F|f)ir(nam|man)en(tem|tu|cie|t)\b/g, '$1irmamen$3');
+            line = line.replace(/\bfrancuzk(iego|imi|im|ich|iej|ie|a|i|ą)/g, 'francusk$1');
+            line = line.replace(/(ł|Ł)abądź($|\W)/g, '$1abędź$2');
+            line = line.replace(/\bgodź\. /g, 'godz. ');
+            line = line.replace(/\bludzią($|\W)/g, 'ludziom$1');
+            line = line.replace(/\błać\./g, 'łac.');
+            // 100 mln. dolarów -> 100 mln dolarów
+            line = line.replace(/\bmln\. ([a-ząćęłńóśżź])/g, 'mln $1');
+            // możnaby...
+            line = line.replace(/\b([mM])o[zż]naby\b/g, '$1ożna by');
+            line = line.replace(/\b(O|o)rgina(łu|łów|ły|łem|łami|ł|lni|lnych|lny|lna|lnej|lnego|lnymi|lnym|lną|lne)/g, '$1rygina$2');
+            line = line.replace(/\b(P|p)iersz(ymi|ym|ych|ej|ego|a|y|e|ą)($|\W)/g, '$1ierwsz$2$3');
+            line = line.replace(/\b(p|P)ojedyńcz(ego|ymi|ym|ych|ej|e|y|ą|a|o)($|\W)/g, '$1ojedyncz$2$3');
+            line = line.replace(/\b(p|P)ożąd(ek|ku|kiem|kowy)\b/g, '$1orząd$2');
+            line = line.replace(/\b(P|p)zrez\b/g, '$1rzez');
+            line = line.replace(/\b(R|r)ownie(ż|z)($|\W)/g, '$1ównież$3');
+            line = line.replace(/\bsciśle\b/g, 'ściśle');
+            line = line.replace(/\b(S|s)pógłos(ce|ek|kom|kami|kach|ka|ki)\b/g, '$1półgłos$2');
+            line = line.replace(/\bszweck(iego|imi|im|ich|iej|ie|a|i|ą)($|\W)/g, 'szwedzk$1$2');
+            line = line.replace(/\btranzakcj(a|i|om|ę|ami|ach|e)/g, 'transakcj$1');
+            line = line.replace(/\btyś\. /g, 'tys. ');
+            line = line.replace(/\bwach(ać|ało|ał|a)($|\W)/g, 'wah$1$2');
+            line = line.replace(/\bwłaść\./g, 'właśc.');
+            line = line.replace(/\b(?:wziąść|wziąźć)($|\W)/g, 'wziąć$1');
+            line = line.replace(/\b(W|w)sród\b/g, '$1śród');
+            line = line.replace(/\bza wyjątkiem\b/g, 'z wyjątkiem');
+            line = line.replace(/\bzarząda(ła|li|ł)($|\W)/g, 'zażąda$1$2');
+            line = line.replace(/\bznaleść($|\W)/g, 'znaleźć$1');
+            line = line.replace(/\b([Zz])wycięsc(a|ów)\b/g, '$1wycięzc$2');
+            line = line.replace(/żadko\b/g, 'rzadko');
 
             line = this._addMissingPolishAccents(line);
+
+            // uppercase
+            if (this.risky) {
+                line = line.replace(/(f)(acebook\w)/g, (match, m1, m2) => `${m1.toUpperCase()}${m2}`);
+            }
+
+            line = line.replace(/\b(wschodni|zachodni)o(?:-|–|—| )(północn|południow)/g, '$2o-$1');
+            line = line.replace(/\b(wschodn|zachodn)iy/g, '$1i');
+
+            line = line.replace(/(t|T)rash( |-|–|—)metal/g, '$1hrash metal');
+            line = line.replace(/\b(art|black|death|doom|glam|gothic|groove|hard|heavy|nu|pop|punk|speed|thrash)( |-)(rock|metal|punk)(owych|owy|owej|owa|owym|owe|ową|owo|owiec)/gi, '$1$3$4');
+            line = line.replace(/\[\[(art|black|death|doom|glam|gothic|groove|hard|heavy|nu|pop|punk|speed|thrash)( |-)(rock|metal|punk)\]\](owych|owy|owa|owej|owym|owe|ową|owo|owiec)/g, '[[$1 $3|$1$3$4]]');
+            line = line.replace(/hip hop(owym|owy|owa|owej|owym|owe)/g, 'hip-hop$1');
+            line = line.replace(/\[\[hip hop\]\](owy|owa|owej|owym|owe)/g, '[[hip hop|hip-hop$1]]');
+
             return line;
         }
 
@@ -320,6 +432,26 @@
                 return line;
             }
             line = line.replace(/\b(imi|książ|mas|par|plemi|zwierz)e\b/g, '$1ę');
+            line = line.replace(/\b(B|b)yc\b/g, '$1yć');
+            line = line.replace(/\b(B|b)yl\b/g, '$1ył');
+            line = line.replace(/\b(C|c)zest(ych|ymi|o|y|ą|a|e)($|\W)/g, '$1zęst$2$3');
+            line = line.replace(/\b(D|d)osc\b/g, '$1ość');
+            line = line.replace(/\b(D|d)uz(o|y|a|e|ych|ą)($|\W)/g, '$1uż$2$3');
+            line = line.replace(/\b(G|g)łown(a|e|i|ych|ymi|y|ą)($|\W)/g, '$1łówn$2$3');
+            line = line.replace(/\b(G|g)dyz\b/g, '$1dyż');
+            line = line.replace(/\bjak(a|i|ie)s\b/g, 'jak$1ś');
+            line = line.replace(/\bktor(zy|ego|ych|ymi|ym|a|ą|y)($|\W)/g, 'któr$1$2');
+            line = line.replace(/\bmoze\b/g, 'może');
+            line = line.replace(/\b(N|n)astepn(ego|ej|ych|a|e|y|i|ą)($|\W)/g, '$1astępn$2$3');
+            line = line.replace(/\b(O|o)procz\b/g, '$1prócz');
+            line = line.replace(/\bzaden\b/g, 'żaden');
+            line = line.replace(/\b(P|p)ojecie\b/g, '$1ojęcie');
+            line = line.replace(/\b(P|p)rzyklad\b/g, '$1rzykład');
+            line = line.replace(/\b(W|w)iecej\b/g, '$1ięcej');
+            line = line.replace(/\b(W|w)iedze\b/g, '$1iedzę');
+            line = line.replace(/\b(W|w)ieksz(ego|emu|ym|ych|ą|a|y|e)($|\W)/g, '$1iększ$2$3');
+            line = line.replace(/\b(W|w)i[eę]kszo(?:sc|sć|ść|śc)($|\W)/g, '$1iększość$2');
+            line = line.replace(/\b(Z|z)wiaz(ek|ku|kiem)\b/g, '$1wiąz$2');
             return line;
         }
 
