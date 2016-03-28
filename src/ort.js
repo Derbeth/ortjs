@@ -169,6 +169,19 @@
             // komuniźmie -> komunizmie
             line = line.replace(/(analfabety|anarchi|buddy|fanaty|faszy|femini|judai|kapitali|katechi|komuni|marksi|masochi|mechani|mesjani|nazi|nihili|oportuni|optymi|organi|pesymi|platoni|pozytywi|protestanty|radykali|romanty|sady|socjali|syndykali|totalitary|trocki)źmie/gi, '$1zmie');
 
+            line = line.replace(/\b(wg|Wg)\./g, '$1');
+            line = line.replace(/\b(W|w)\/w\b/g, '$1w.'); // w/w -> ww.
+            line = line.replace(/\b(j|J)\/w\b/g, '$1w.'); // j/w -> jw.
+            line = line.replace(/\b(j|J)\.w\./g, '$1w.');
+            line = line.replace(/\b(W|w)\/g\b/g, '$1g');  // w/g -> wg
+            line = line.replace(/\bd\/s\b/g, 'ds.');  // w/g -> wg
+            line = line.replace(/\bdr\.\b/g, 'dr'); // dr. -> dr
+
+            if (this.risky) {
+                line = line.replace(/\bnr\.(\d)/g, 'nr $1'); // nr.10 -> nr 10
+                line = line.replace(/\b(nr|Nr|mgr|Mgr|mjr|Mjr|ppłk|Ppłk|płk|Płk)\./g, '$1');
+            }
+
             line = line.replace(/\bz pośród\b/g, 'spośród');
             line = line.replace(/\bZ pośród\b/g, 'Spośród');
             line = line.replace(/\b(W|w) śród\b/g, '$1śród');
