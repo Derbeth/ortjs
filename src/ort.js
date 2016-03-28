@@ -3,7 +3,6 @@
 
     class Ort {
         constructor(params={}) {
-            this.params = params;
             this.fixAmericanNumbers = params.fixAmericanNumbers === undefined ? true : params.fixAmericanNumbers;
             this.fixBrs = params.fixBrs === undefined ? true : params.fixBrs;
             this.interpunction = params.interpunction === undefined ? true : params.interpunction;
@@ -12,10 +11,15 @@
         }
 
         fix(text) {
-            return text.split("\n").map((line) => this._fixLine(line)).join("\n");
+            const parts = text.split(/(\[\[(?:category|kategoria))/i);
+            let result = parts[0].split("\n").map((line) => this._fixMainText(line)).join("\n");
+            if (parts.length > 1) {
+                result += this._fixCategories(parts.splice(1).join(''));
+            }
+            return result;
         }
 
-        _fixLine(line) {
+        _fixMainText(line) {
             if (this.risky) {
                 line = this._fixEnglishYears(line);
             }
@@ -594,6 +598,10 @@
                 line = line.replace(/(<br( ?\/)?>){2}/g, "\n\n");
             }
             return line;
+        }
+
+        _fixCategories(text) {
+            return text;
         }
 
         _safeReplace(line, regex, matchCallback) {
