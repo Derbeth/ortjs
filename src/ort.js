@@ -4,6 +4,7 @@
     class Ort {
         constructor(params={}) {
             this.params = params;
+            this.interpunction = params.interpunction === undefined ? true : params.interpunction;
             this.risky = params.risky === undefined ? true : params.risky;
         }
 
@@ -280,6 +281,8 @@
                 line = line.replace(/(f)(acebook\w)/g, (match, m1, m2) => `${m1.toUpperCase()}${m2}`);
             }
 
+            line = this._fixInterpunction(line);
+
             line = line.replace(/\b(wschodni|zachodni)o(?:-|–|—| )(północn|południow)/g, '$2o-$1');
             line = line.replace(/\b(wschodn|zachodn)iy/g, '$1i');
 
@@ -473,6 +476,43 @@
             line = line.replace(/\b(W|w)ieksz(ego|emu|ym|ych|ą|a|y|e)($|\W)/g, '$1iększ$2$3');
             line = line.replace(/\b(W|w)i[eę]kszo(?:sc|sć|ść|śc)($|\W)/g, '$1iększość$2');
             line = line.replace(/\b(Z|z)wiaz(ek|ku|kiem)\b/g, '$1wiąz$2');
+            return line;
+        }
+
+        _fixInterpunction(line) {
+            if (!this.interpunction) {
+                return line;
+            }
+            // no space after comma
+            line = line.replace(/,(podczas (któr(ych|ej|ego)|gdy|kiedy)|jako że|mimo że|taki jak)\b/g, ', $1');
+            line = line.replace(/,((z|bez|od|do|po|dla) (któr(ymi|ym|ej|ego|ych|ym|ą)))/g, ', $1');
+            line = line.replace(/ ?,(kiedy|że|któr(ego|ej|ych|ym|y|ą|e)|mimo|chociaż|a|od)/g, ', $1');
+
+            // coś.Niecoś -> coś. Niecoś
+            if (this.risky) {
+                line = this._safeReplace(line, /([a-ząćęłńóśżź\]])\.([A-ZĄĆĘŁŃÓŚŻŹ])/, (match, matches, before, after) => {
+                    if (this._isLinkStart(before) || `${matches[2]}${after}`.match(/^(JPEG|JPG|PNG|GIF)\b/i)) {
+                        return match;
+                    }
+                    return `${matches[1]}. ${matches[2]}`;
+                });
+            }
+
+            line = line.replace(/\b((?:J|j)ako|(?:m|M)imo), (iż|że)\b/g, '$1 $2');
+            line = line.replace(/\b(O|o)d, któr(ego|ej|ych)\b/g, '$1d któr$2');
+            line = line.replace(/\bz, któr(ymi|ym|ą)/g, 'z któr$1');
+            line = line.replace(/\b(bez|od|do|po|dla), (któr(ej|ego|ych|ym))\b/g, '$1 $2');
+            line = line.replace(/, (niż)($|\W)/g, ' $1$2');
+            line = line.replace(/\b([pP]odczas), (któr(ych|ej|ego)|gdy|kiedy)\b/g, '$1 $2');
+            line = line.replace(/\btaki, jak\b/g, 'taki jak');
+            line = line.replace(/\b([Pp]onadto), (?!że)/g, '$1 ');
+            line = line.replace(/([^;>,\-–—]) (podczas (któr(ych|ej|ego)|gdy|kiedy)|jako że|mimo że|taki jak)\b/g, '$1, $2');
+            line = line.replace(/([^;>,\-–—]) ((z|bez|od|do|po|dla) (któr(ymi|ym|ej|ego|ych|ym|ą)))/g, '$1, $2');
+            // reverse changes
+            line = line.replace(/\bco, do któr(ych|ego|ej)\b/g, 'co do któr$1');
+            line = line.replace(/\b(zgodnie|wraz), z któr(ymi|ym|ą)/g, '$1 z któr$2');
+            line = line.replace(/\bi, (po|od|z) któr(ych|ym|ego|ej)\b/g, 'i $1 któr$2');
+            line = line.replace(/\bi, (mimo że)\b/g, 'i $1');
             return line;
         }
 
