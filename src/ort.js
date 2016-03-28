@@ -148,7 +148,8 @@
             }
             line = line.replace(/(Burke|Duke|George|Luke|Mike|Pete|Shayne|Spike|Steve)((?:\]\])?)(a|owi)\b/g, '$1$2’$3');
             line = line.replace(/(Boyl|Doyl|Joyc|Lawrenc|Wayn)e?((?:\]\])?)(a|owi)\b/g, '$1e$2’$3');
-            line = line.replace(/(Boyl|Doyl|Joyc|Lawrenc|Wayn)e?((?:\]\])?)(em|m)\b/, '$1e$2’em');
+            line = line.replace(/(Boyl|Doyl|Joyc|Lawrenc|Wayn)e?(em|m)\b/g, '$1e’em');
+            line = line.replace(/(Boyl|Doyl|Joyc|Lawrenc|Wayn)e?(\]\])(em|m)\b/g, '$1e$2’em');
             line = line.replace(/(Barr|Dann|Gar|Gretzk|Harr|Perc|Perr|Terr|Timoth)y?(ego|emu)\b/g, '$1y’$2');
             line = line.replace(/\[\[([^|\]]*(Barr|Dann|Gar|Gretzk|Harr|Perc|Perr|Terr|Timoth))y\]\](ego|emu)\b/g, '[[$1y|$1y’$3]]');
 
