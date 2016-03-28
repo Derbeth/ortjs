@@ -321,7 +321,7 @@
                 (match, matches, before, after) => {
                     if (before.match(/(rok\w+\s+|[-–])$/)
                         || after.match(/^\.?(jpg|jpeg|svg|png|gif)\b/i)
-                        || match[1] === '00') {
+                        || matches[1] === '00') {
                         return match;
                     }
                     return `${matches[1]}${matches[2]}`;
