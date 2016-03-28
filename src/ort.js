@@ -4,6 +4,7 @@
     class Ort {
         constructor(params={}) {
             this.params = params;
+            this.fixAmericanNumbers = params.fixAmericanNumbers === undefined ? true : params.fixAmericanNumbers;
             this.interpunction = params.interpunction === undefined ? true : params.interpunction;
             this.risky = params.risky === undefined ? true : params.risky;
         }
@@ -28,6 +29,8 @@
             line = line.replace(/(godzin(a|ie|ą)) (\d+)\.(?!\d)/g, '$1 $3'); // o godzinie 10. -> o godzinie 10
             line = line.replace(/(\d)\. (stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia)/gi, '$1 $2'); // 1. stycznia -> 1 stycznia
             line = line.replace(/(\d{4})\. (r\.)/g, '$1 $2');
+
+            line = this._fixAmericanNumbers(line);
 
             line = line.replace(/(\d)( ?- ?|[–—])?(set)\b/g, '$1-$3QQQ'); // ostrzeżenie przed 400-set itp.
             line = line.replace(/(\d)(?: ?- ?|[–—])?((?:st|t|)(?:kom|kach|kami|ka|ki|kę|ką|ke|ce|ek))($|\W)/g, '$1-$2QQQ$3'); // ostrzeżenie przed zapisem 12-tka (http://poradnia.pwn.pl/lista.php?id=7010)
@@ -411,6 +414,16 @@
                     return matches[1];
                 }
             );
+        }
+
+        // 1.000 -> 1 000; 13,000,000 -> 13 000 000
+        _fixAmericanNumbers(line) {
+            if (!this.fixAmericanNumbers) {
+                return line;
+            }
+            line = line.replace(/([ (])(\d{1,3})[.,]([50]00)([ )])/g, '$1$2 $3$4');
+            line = line.replace(/([ (])(\d{1,3})([,.])(\d\d0)\3(000)([ )])/g, '$1$2 $4 $5$6');
+            return line;
         }
 
         //Jay'a-Z
