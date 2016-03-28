@@ -260,6 +260,21 @@
 
             line = this._addMissingPolishAccents(line);
 
+            line = line.replace(/\b(v ?- ?ce|vice|wice)[ -]?(\w+)/g, (match, m1, m2) => {
+                if (m2.match(/^(?:versa|city)/i)) {
+                    return match;
+                }
+                return `wice${m2.toLowerCase()}`;
+            });
+            if (this.risky) {
+                line = line.replace(/\b(V ?- ?ce|Vice|Wice)[ -]?(\w+)/g, (match, m1, m2) => {
+                    if (m2.match(/^(?:versa|city)/i) || match.match(/Vicente|Vicenz/)) {
+                        return match;
+                    }
+                    return `Wice${m2.toLowerCase()}`;
+                });
+            }
+
             // uppercase
             if (this.risky) {
                 line = line.replace(/(f)(acebook\w)/g, (match, m1, m2) => `${m1.toUpperCase()}${m2}`);
