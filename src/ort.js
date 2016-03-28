@@ -306,6 +306,8 @@
             line = line.replace(/hip hop(owym|owy|owa|owej|owym|owe)/g, 'hip-hop$1');
             line = line.replace(/\[\[hip hop\]\](owy|owa|owej|owym|owe)/g, '[[hip hop|hip-hop$1]]');
 
+            line = this._fixWikicode(line);
+
             return line;
         }
 
@@ -527,6 +529,23 @@
             line = line.replace(/\b(zgodnie|wraz), z któr(ymi|ym|ą)/g, '$1 z któr$2');
             line = line.replace(/\bi, (po|od|z) któr(ych|ym|ego|ej)\b/g, 'i $1 któr$2');
             line = line.replace(/\bi, (mimo że)\b/g, 'i $1');
+            return line;
+        }
+
+        _fixWikicode(line) {
+            line = line.replace(/ \]\] /g, ']] ');
+            line = line.replace(/ \[\[ /g, ' [[');
+            line = line.replace(/\[\[([^|]+)\|\1\]\]/g, '[[$1]]'); //  [[a|a]] -> [[a]], [[a b|a b]] -> [[a b]]
+            line = line.replace(/\[\[([^|]+)\|\1(a|e|u|ie|em)\]\]/g, '[[$1]]$2'); //  [[boks|boksu]] -> [[boks]]u
+
+            line = line.replace(/:\s*==/g, '==');
+            line = line.replace(/(==\s*)Zobacz także/i, '${1}Zobacz też');
+            line = line.replace(/Zewnętrzne linki/i, 'Linki zewnętrzne');
+            line = line.replace(/\[\[(Image|Grafika|Plik|File): */gi, '[[Plik:');
+
+            if (this.risky) {
+                line = line.replace(/&client=firefox-a/g, '');
+            }
             return line;
         }
 
