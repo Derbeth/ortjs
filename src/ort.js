@@ -5,8 +5,10 @@
         constructor(params={}) {
             this.params = params;
             this.fixAmericanNumbers = params.fixAmericanNumbers === undefined ? true : params.fixAmericanNumbers;
+            this.fixBrs = params.fixBrs === undefined ? true : params.fixBrs;
             this.interpunction = params.interpunction === undefined ? true : params.interpunction;
             this.risky = params.risky === undefined ? true : params.risky;
+            this.typography = params.typography === undefined ? true : params.typography;
         }
 
         fix(text) {
@@ -309,6 +311,7 @@
             line = line.replace(/hip hop(owym|owy|owa|owej|owym|owe)/g, 'hip-hop$1');
             line = line.replace(/\[\[hip hop\]\](owy|owa|owej|owym|owe)/g, '[[hip hop|hip-hop$1]]');
 
+            line = this._fixTypography(line);
             line = this._fixWikicode(line);
 
             return line;
@@ -545,6 +548,34 @@
             return line;
         }
 
+        _fixTypography(line) {
+            if (!this.typography) {
+                return line;
+            }
+            // 24 - 25 -> 24-25
+            line = this._safeReplace(line, /(\d(?:\]\])?) (?:-|–|—|&[mn]dash;) ?((?:\[\[)?\d)/, (match, matches, before) => {
+                if (this._isLinkStart(before)) {
+                    return match;
+                }
+                return `${matches[1]}–${matches[2]}`;
+            });
+            // [[1]]-[[2]] -> [[1]]półpauza[[2]]
+            line = this._safeReplace(line, /(^|[ (])((?:\[\[)?\d+(?:\]\])?)-((?:\[\[)?\d+(?:\]\])?)([ )&;,]|$)/, (match, matches, before) => {
+                if (this._isLinkStart(before) || before.match(/kod_poczt|^\[\[[^[\]|]+$/) || before.match(/ISBN *$/)) {
+                    return match;
+                }
+                return `${matches[1]}${matches[2]}–${matches[3]}${matches[4]}`;
+            });
+            // a - b -> a emdash b
+            line = this._safeReplace(line, / - /, (match, matches, before) => {
+                if (this._isLinkStart(before)) {
+                    return match;
+                }
+                return " – ";
+            });
+            return line;
+        }
+
         _fixWikicode(line) {
             line = line.replace(/ \]\] /g, ']] ');
             line = line.replace(/ \[\[ /g, ' [[');
@@ -558,6 +589,9 @@
 
             if (this.risky) {
                 line = line.replace(/&client=firefox-a/g, '');
+            }
+            if (this.fixBrs) {
+                line = line.replace(/(<br( ?\/)?>){2}/g, "\n\n");
             }
             return line;
         }
