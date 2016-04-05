@@ -24,7 +24,7 @@
 
             it("can be called many times for wikitext with categories", () => {
                 ort.fix("foo\n[[Category:Bar]]\nbaz");
-                expect(ort.fix("3-go maja\n[[Category:Maj]]\n[[en:3-go maja]]")).toEqual("3 maja\n[[Category:Maj]]\n[[en:3-go maja]]");
+                expect(ort.fix("3-go maja\n[[Category:Maj]]\n[[en:3-go maja]]")).toEqual("3 maja\n[[Kategoria:Maj]]\n[[en:3-go maja]]");
             });
         });
     });

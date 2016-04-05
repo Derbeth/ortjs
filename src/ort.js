@@ -601,6 +601,9 @@
         }
 
         _fixCategories(text) {
+            text = text.replace(/\[\[Category:/gi, '[[Kategoria:');
+            text = text.replace(/\[\[\s*(?:k|K)ategoria\s*:\s*([^ |\]]+)/g, (match,m1) => `[[Kategoria:${this._ucfirst(m1)}`);
+            text = text.replace(/(\]\])\s*(\[\[Kategoria:)/g, '$1\n$2');
             return text;
         }
 
