@@ -1,6 +1,6 @@
 {
   "name": "ort",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Automatic spelling correction for Polish language, both in wikicode and plaintext",
   "homepage": "http://tools.wikimedia.pl/~derbeth/ort/",
   "author": "Piotr Kubowicz <derbeth@interia.pl> (https://github.com/Derbeth)",
