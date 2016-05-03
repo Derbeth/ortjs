@@ -176,7 +176,7 @@
             // "Koreii", "ziemii"
             line = line.replace(/(bieżni|elektrowni|głębi|jaskini|Korei|powierzchni|pustyni|skoczni|skrobi|uczelni|ziemi)i/gi, '$1');
             // Japoni -> Japonii
-            line = line.replace(/\b(Austri|Australi|Algieri|amfibi|Armeni|Belgi|[bB]ibli|Brazyli|Brytani|Bułgari|Cynthi|Estoni|Etiopi|Finlandi|Grenlandi|Hiszpani|Holandi|Irlandi|Islandi|Japoni|Jordani|Jugosławi|laryngologi|lini|Mołdawi|Mongoli|Nigeri|Norwegi|opini|Portugali|Serbi|Słoweni|stomatologi|Szwajcari|Tajlandi|Virgini|Zelandi)\b/g, '$1i');
+            line = line.replace(/\b(Austri|Australi|Algieri|amfibi|Armeni|Belgi|[bB]ibli|Brazyli|Brytani|Bułgari|Cynthi|Estoni|Etiopi|Finlandi|Grenlandi|Hiszpani|Holandi|Irlandi|Islandi|Japoni|Jordani|Jugosławi|laryngologi|lini|Mołdawi|Mongoli|Nigeri|Norwegi|opini|Portugali|Serbi|Słoweni|stomatologi|Szwajcari|Tajlandi|Virgini|Zelandi)($|[^a-zA-Ząćęłńóśżź])/g, '$1i$2');
             // szyji -> szyi
             line = line.replace(/\b(ale|knie|kole|mierze|nadzie|Okrze|ru|szy|Zia)ji\b/gi, '$1i');
             // komuniźmie -> komunizmie
