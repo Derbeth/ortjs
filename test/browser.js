@@ -3,7 +3,20 @@
     "use strict";
 
     describe("Ort", () => {
-        describe("fix", () => {
+        describe("constructor", () => {
+            it("accepts params as a map", () => {
+                const ort = new Ort({risky: 1, interpunction: 0, fixAmericanNumbers: true, fixBrs: false});
+                expect(ort.risky).toBeTruthy();
+                expect(ort.interpunction).toBeFalsy();
+                expect(ort.fixAmericanNumbers).toBeTruthy();
+                expect(ort.fixBrs).toBeFalsy();
+            });
+            it("runs with some default settings when called without parameters", () => {
+                const ort = new Ort();
+                expect(ort.interpunction).toBeTruthy();
+            });
+        });
+        describe("fix()", () => {
             let ort = null;
             beforeEach(() => {
                 ort = new Ort();
