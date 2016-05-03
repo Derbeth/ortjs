@@ -28,6 +28,8 @@
                 line = this._fixOrdinals2(line);
             }
 
+            // TODO Roman numbers
+
             line = line.replace(/(\b[XIV]+)\. (wiek|wieczn|stuleci)/g, '$1 $2'); // XX. wieku -> XX wieku
             line = line.replace(/((w|W)ieku?) (\b[XIV]+)\./g, '$1 $3'); // wiek XX. -> wiek XX
             line = line.replace(/(\b[XIV]+)( |- | -| - |[–—])(wieczn)/g, '$1-$3'); // XX wieczny -> XX-wieczny
@@ -38,8 +40,10 @@
 
             line = this._fixAmericanNumbers(line);
 
-            line = line.replace(/(\d)( ?- ?|[–—])?(set)\b/g, '$1-$3QQQ'); // ostrzeżenie przed 400-set itp.
-            line = line.replace(/(\d)(?: ?- ?|[–—])?((?:st|t|)(?:kom|kach|kami|ka|ki|kę|ką|ke|ce|ek))($|\W)/g, '$1-$2QQQ$3'); // ostrzeżenie przed zapisem 12-tka (http://poradnia.pwn.pl/lista.php?id=7010)
+            if (this.risky) {
+                line = line.replace(/(\d)( ?- ?|[–—])?(set)\b/g, '$1-$3QQQ'); // ostrzeżenie przed 400-set itp.
+                line = line.replace(/(\d)(?: ?- ?|[–—])?((?:st|t|)(?:kom|kach|kami|ka|ki|kę|ką|ke|ce|ek))($|\W)/g, '$1-$2QQQ$3'); // ostrzeżenie przed zapisem 12-tka (http://poradnia.pwn.pl/lista.php?id=7010)
+            }
 
             if (!line.match(/<math>/i)) {
                 line = this._fixNumerals1(line);
