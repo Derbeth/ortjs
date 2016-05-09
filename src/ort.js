@@ -71,7 +71,7 @@
             const separator = '(?: | ?[-–—] ?|\\. )';
             line = line.replace(new RegExp(`(\\d)${separator}(${units})($|\\W)`, 'gi'), (m, m1, m2, m3) => `${m1}-${m2.toLowerCase()}${m3}`); // 32 bitowy -> 32-bitowy
             line = line.replace(new RegExp(`(\\d)${separator}(\\[\\[)(${link_units})(\\]\\]ow(?:ego|emu|ych|ymi|ym|ą|e|a|y))($|\\W)`, 'gi'), (m, m1, m2, m3, m4, m5) => `${m1}-${m2}${m3.toLowerCase()}${m4}${m5}`);
-            line = line.replace(new RegExp(`\\b(${safe_numerals}) +i +pół +(${units})`, 'gi'), '$1ipół$2'); // http://so.pwn.pl/zasady.php?id=629465
+            line = line.replace(new RegExp(`\\b(${safe_numerals})[ -]+i[ -]+pół[ -]+(${units})`, 'gi'), '$1ipół$2'); // http://so.pwn.pl/zasady.php?id=629465
             line = line.replace(new RegExp(`\\b(${numerals})${separator}(${units})($|\\W)`, 'gi'), '$1$2$3'); // sześcio tonowy -> sześciotonowy
             line = line.replace(new RegExp(`\\b(${safe_numerals})-(lub)`, 'gi'), '$1- $2'); // trzy-lub czterokołowy
             if (this.risky) {
