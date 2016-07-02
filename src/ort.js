@@ -382,9 +382,9 @@
                         return match;
                     }
                     if (matches[1].match(/\d+/)) {
-                        return `${matches[1]}.${matches[5]}`; // 10-te -> 10.
+                        return `${matches[1]}${matches[2] || ''}.${matches[5]}`; // 10-te -> 10.
                     } else {
-                        return `${matches[1]}${matches[5]}`; // VI-tym -> IV
+                        return `${matches[1]}${matches[2] || ''}${matches[5]}`; // VI-tym -> IV
                     }
                 }
             );
@@ -393,6 +393,7 @@
         _fixOrdinals2(line) {
             line = line.replace(/(lat\w* +\d+)( ?[-–—] ?| )(tych|tymi|te)\b/gi, '$1.');
             line = line.replace(/(lat\w* +)1\d(\d0\.)/gi, '$1$2');
+            line = line.replace(/(1\d{3})(\]\])?\. (rok)/g, '$1$2 $3');
             return line;
         }
 
