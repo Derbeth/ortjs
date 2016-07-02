@@ -521,7 +521,7 @@
             // no space after comma
             line = line.replace(/,(podczas (któr(ych|ej|ego)|gdy|kiedy)|jako że|mimo że|taki jak)\b/g, ', $1');
             line = line.replace(/,((z|bez|od|do|po|dla) (któr(ymi|ym|ej|ego|ych|ym|ą)))/g, ', $1');
-            line = line.replace(/ ?,(kiedy|że|któr(ego|ej|ych|ym|y|ą|e)|mimo|chociaż|a|od)/g, ', $1');
+            line = line.replace(/ ?,(kiedy|że|któr(?:ego|ej|ych|ym|y|ą|e)|mimo|chociaż|a|od)($|[^a-zA-Ząćęłńóśżź])/g, ', $1$2');
 
             // coś.Niecoś -> coś. Niecoś
             if (this.risky) {
