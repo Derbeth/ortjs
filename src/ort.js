@@ -28,8 +28,6 @@
                 line = this._fixOrdinals2(line);
             }
 
-            // TODO Roman numbers
-
             line = line.replace(/(\b[XIV]+)\. (wiek|wieczn|stuleci)/g, '$1 $2'); // XX. wieku -> XX wieku
             line = line.replace(/((w|W)ieku?) (\b[XIV]+)\./g, '$1 $3'); // wiek XX. -> wiek XX
             line = line.replace(/(\b[XIV]+)( |- | -| - |[–—])(wieczn)/g, '$1-$3'); // XX wieczny -> XX-wieczny
