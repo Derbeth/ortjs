@@ -11,6 +11,9 @@
     const diffCmd = fs.existsSync('/usr/bin/kdiff3') ? 'kdiff3' : ' --unified=2';
     const failed = [];
     const cases = fs.readdirSync(path.resolve(dir)).filter((name) => name.match(/in\d+.txt/)).sort();
+    if (!fs.existsSync(actualDir)) {
+        fs.mkdirSync(actualDir);
+    }
     cases.forEach((name) => {
         const index = name.match(/in(\d+).txt/)[1];
         const input = fs.readFileSync(path.resolve(dir, name), 'utf8');
