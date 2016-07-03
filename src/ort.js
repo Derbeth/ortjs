@@ -137,7 +137,7 @@
             line = line.replace(/\B(ell)i(?:'|’|`|-)?(ego|emu)\b/g, '$1$2'); // Botticelliemu -> Botticellemu http://so.pwn.pl/zasady.php?id=629632
             line = line.replace(/\[\[([^\]|]+ell)i\]\](?:'|’|`|-)?(ego|emu)\b/g, '[[$1i|$1$2]]'); // [[Sandro Botticelli]]ego
 
-            line = line.replace(/ieego\b/g, 'iego$1'); // Laurieego -> Lauriego
+            line = line.replace(/ieego\b/g, 'iego'); // Laurieego -> Lauriego
             line = line.replace(/(Mar|Eri)ciem\b/g, '$1kiem'); // Marciem, Markem -> Markiem, Ericiem -> Erikiem
             line = line.replace(/\b(Mark|Greg)em\b/g, '$1iem');
             line = line.replace(/a('|’|`)([ąęy])($|\W)/g, '$2$3'); //  Laura'y -> Laury
