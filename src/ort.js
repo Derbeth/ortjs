@@ -526,7 +526,7 @@
             // coś.Niecoś -> coś. Niecoś
             if (this.risky) {
                 line = this._safeReplace(line, /([a-ząćęłńóśżź\]])\.([A-ZĄĆĘŁŃÓŚŻŹ])/, (match, matches, before, after) => {
-                    if (this._isLinkStart(before) || `${matches[2]}${after}`.match(/^(JPEG|JPG|PNG|GIF)\b/i)) {
+                    if (this._isLinkStart(before) || `${before}${matches[1]}`.match(/www$/i) || `${matches[2]}${after}`.match(/^(JPEG|JPG|PNG|GIF)\b/i)) {
                         return match;
                     }
                     return `${matches[1]}. ${matches[2]}`;
