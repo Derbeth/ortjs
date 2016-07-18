@@ -1,7 +1,7 @@
 module.exports = function(config) {
     config.set({
         frameworks: ['jasmine'],
-        browsers: ['PhantomJS', 'SlimerJS'], // 'Firefox'
+        browsers: ['PhantomJS'], // 'Firefox'
         reporters: ['spec'],
 
         files: [
