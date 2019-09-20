@@ -23,16 +23,16 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "babel-cli": "~6.10.1",
-    "babel-preset-es2015": "~6.9.0",
-    "eslint": "~3.1.0",
-    "istanbul": "~0.4.3",
-    "jasmine-core": "~2.4.1",
-    "karma": "~1.1.0",
-    "karma-firefox-launcher": "~1.0.0",
-    "karma-jasmine": "~1.0.2",
+    "babel-cli": "~6.26.0",
+    "babel-preset-es2015": "~6.24.1",
+    "eslint": "~6.4.0",
+    "jasmine-core": "~3.4.0",
+    "karma": "^4.3.0",
+    "karma-firefox-launcher": "~1.2.0",
+    "karma-jasmine": "~2.0.1",
     "karma-phantomjs-launcher": "~1.0.0",
     "karma-spec-reporter": "~0.0.26",
+    "nyc": "^14.1.1",
     "phantomjs-prebuilt": "~2.1.7"
   },
   "scripts": {
@@ -40,8 +40,8 @@
     "compile": "babel src/ -d dist/",
     "test": "npm run check && npm run compile && babel test/browser.js -d tmp/ && karma start --single-run && node test/texts.js",
     "texts": "npm run check && npm run compile && node test/texts.js",
-    "coverage": "eslint src && npm run compile && istanbul cover test/texts.js",
+    "coverage": "eslint src && npm run compile && nyc --reporter=html node test/texts.js",
     "karma": "npm run check && babel test/browser.js -d tmp/ && karma start --single-run",
-    "prepublish": "npm run check && npm run compile"
+    "prepare": "npm run check && npm run compile"
   }
 }

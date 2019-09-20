@@ -631,7 +631,7 @@
         }
 
         _isLinkStart(text) {
-            return text.match(/https?:\/\/\S+$|(Grafika|Image|Plik|File):[^\|]*$/i);
+            return text.match(/https?:\/\/\S+$|(Grafika|Image|Plik|File):[^|]*$/i);
         }
     }
 
