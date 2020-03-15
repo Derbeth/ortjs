@@ -6,7 +6,7 @@ module.exports = function(config) {
 
         files: [
             'dist/*.js',
-            'tmp/test/browser.js'
+            'tmp/browser.js'
         ]
     });
 };

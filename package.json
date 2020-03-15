@@ -39,7 +39,7 @@
   "scripts": {
     "check": "eslint --fix src && eslint --fix --env jasmine test",
     "compile": "babel src/ -d dist/",
-    "test": "npm run check && npm run compile && babel test/browser.js -d tmp/ && karma start --single-run && node test/texts.js",
+    "test": "rm -rf tmp/ && npm run check && npm run compile && babel test/browser.js -d tmp/ && karma start --single-run && node test/texts.js",
     "texts": "npm run check && npm run compile && node test/texts.js",
     "coverage": "eslint src && npm run compile && nyc --reporter=html node test/texts.js",
     "karma": "npm run check && babel test/browser.js -d tmp/ && karma start --single-run",
