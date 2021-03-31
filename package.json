@@ -23,18 +23,17 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.5",
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.14",
+    "@babel/preset-env": "^7.13.12",
     "eslint": "~6.8.0",
     "jasmine-core": "~3.5.0",
-    "karma": "^5.0.1",
-    "karma-firefox-launcher": "~1.3.0",
+    "karma": "^6.3.2",
+    "karma-chrome-launcher": "^3.1.0",
     "karma-jasmine": "~3.1.1",
-    "karma-phantomjs-launcher": "~1.0.0",
     "karma-spec-reporter": "~0.0.26",
-    "nyc": "^15.0.1",
-    "phantomjs-prebuilt": "~2.1.7"
+    "nyc": "^15.1.0",
+    "puppeteer": "^8.0.0"
   },
   "scripts": {
     "check": "eslint --fix src && eslint --fix --env jasmine test",
@@ -45,5 +44,6 @@
     "karma": "npm run check && babel test/browser.js -d tmp/ && karma start --single-run",
     "prepare": "npm run check && npm run compile"
   },
-  "browserslist": "> 1% in PL, last 2 versions, Firefox ESR, not dead"
+  "browserslist": "> 1% in PL, last 2 versions, Firefox ESR, not dead",
+  "dependencies": {}
 }
